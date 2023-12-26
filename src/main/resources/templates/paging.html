@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10;
+            CONTAIN-INTRINSIC-BLOCK-SIZE: AUTO 100PX;
+            padding: 0;
+            background-color: #dee2e6;
+        }
+
+        button {
+            font-size: 25px;
+            border: 3px solid #495057;
+            color: #212529;
+            background-color: #adb5bd;
+            padding: 7px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+        }
+
+        button:hover {
+            background-color: #495057;
+            color: #dee2e6;
+        }
+
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        th, td {
+            border: 3px solid #495057;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #adb5bd;
+            color: #212529;
+        }
+
+    </style>
+</head>
+<body>
+
+<button onclick="home()">메인</button>
+<button onclick="create()">글쓰기</button>
+
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성일</th>
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="board: ${boardList}">
+        <td th:text="${board.getId}"></td>
+        <td> <a th:href="@{${board.getId}|(page = ${boardList.number + 1})}" th:text="${board.getBoardTitle()}"></a></td>
+        <td th:text="*{#temporals.format(board.getCreate_time, 'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="paging" th:if="${boardList.totalPages > 0}">
+    <a th:href="@{/board/paging(page=1)}">처음</a>
+    <a th:href="${boardList.first} ? '#' : @{/board/paging(page=${boardList.number})}">이전</a>
+
+    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+    <!-- 현재페이지는 링크 없이 숫자만 -->
+    <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
+        <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+    <span th:unless="${page == boardList.number + 1}">
+        <a th:href="@{/board/paging(page=${page})}" th:text="${page}"></a>
+    </span>
+</span>
+
+    <!-- 다음 링크 활성화 비활성화
+        사용자: 2페이지, getNumber: 1, 3페이지-->
+    <a th:href="${boardList.last} ? '#' : @{/board/paging(page=${boardList.number + 2})}">다음</a>
+    <!-- 마지막 페이지로 이동 -->
+    <a th:href="@{/board/paging(page=${boardList.totalPages})}">마지막</a>
+
+</div>
+</body>
+
+<script>
+    const home = () => {
+    location.href = "/";
+    }
+    const create = () => {
+    location.href = "/board/createPost";
+    }
+</script>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CreatePost</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #dee2e6;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            margin: auto;
+        }
+
+        input[type=text], textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 3px solid #495057;
+        }
+
+        input[type=submit] {
+            font-size: 25px;
+            border: 3px solid #495057;
+            color: #212529;
+            background-color: #adb5bd;
+            padding: 7px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        input[type=submit]:hover {
+            background-color: #495057;
+            color: #dee2e6;
+        }
+
+    </style>
+</head>
+<body>
+
+<form action="/board/save" method="post" enctype="multipart/form-data">
+
+    <!-- writer: <input type="text" name="user_name"> -->
+    <!-- email: <input type="text" name="email"> <br><br> -->
+    <!-- pass: <input type="text" name="boardPass"> <br> -->
+    title: <input type="text" name="boardTitle"> <br><br>
+    contents: <br><textarea name="boardContents" cols="30" rows="10"></textarea> <br>
+    boardFile: <input type="file" name="files" multiple> <br><br>
+    <input type="submit" value="글 작성">
+
+</form>
+
+</body>
+</html>
